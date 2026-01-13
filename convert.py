@@ -57,9 +57,9 @@ def main():
         with open('.env', 'w') as f: f.write("")
     
     supported_banks = {
-        "1": ("Ibercaja", "ibercaja.py"),
-        "2": ("BBVA", "bbva.py"),
-        "3": ("Revolut", "revolut.py")
+        "1": ("Ibercaja", "converters/ibercaja.py"),
+        "2": ("BBVA", "converters/bbva.py"),
+        "3": ("Revolut", "converters/revolut.py")
     }
 
     print("\n========================================")
