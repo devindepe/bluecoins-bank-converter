@@ -92,6 +92,19 @@ def get_or_set_account_name(bank_name):
         set_key(".env", env_key, account_name)
     return account_name
 
+def get_or_set_account_type(bank_name):
+    """Manages the account type in the .env."""
+    env_key = f"ACCOUNT_TYPE_{bank_name.upper()}"
+    load_dotenv()
+    account_type = os.getenv(env_key)
+
+    if not account_type:
+        default_type = "Bank"
+        user_input = input(f"\nAccount type for {bank_name} in Bluecoins? (Enter for '{default_type}'): ").strip()
+        account_type = user_input if user_input else default_type
+        set_key(".env", env_key, account_type)
+    return account_type
+
 def main():
     if not os.path.exists('.env'):
         with open('.env', 'w') as f: f.write("")
@@ -119,6 +132,7 @@ def main():
     
     # 1. First, ensure all configurations are set in .env
     get_or_set_account_name(bank_name)
+    get_or_set_account_type(bank_name)
     get_or_set_env_var(f"OUTPUT_NAME_{bank_id}", "Base name for the output CSV?", f"{bank_name.lower()}_bluecoins")
     output_dir = select_output_folder() # Set destination folder
     file_path = select_file(bank_name)

@@ -26,18 +26,37 @@ The easiest way to convert your files is using the main launcher:
 
 ```bash
 # On macOS / Linux
-python3 convert.py
+python3 main.py
 
 # On Windows
-python convert.py
+python main.py
 ```
 
 The script will automatically:
 1. Ask you to select your bank.
-2. Help you configure your account name the first time (and save it for future use).
+2. Help you configure your account name and account type the first time (and save it for future use).
 3. Open a file selector (or ask for the path) to process your bank statement.
 
-The converted file will be generated with the format `[bankname]_bluecoins.csv` ready to import into Bluecoins.
+The converted file will be generated in your configured output folder (or `/exports` by default) with the format `[bankname]_bluecoins_YYYYMMDD.csv` ready to import into Bluecoins.
+
+## ⚙️ Configuration
+
+On first run, the script will ask you to configure:
+
+- **Account Name:** The exact name as it appears in your Bluecoins app (e.g., "Ibercaja Account")
+- **Account Type:** The account category in Bluecoins (default: "Bank", but can be "Credit Card", "Cash", etc.)
+- **Output Folder:** Where to save the generated CSV files
+- **Output Name:** Base name for the generated files
+
+These settings are saved in a `.env` file and reused in future runs. You can edit `.env` manually or delete it to reconfigure.
+
+**Example `.env` file:**
+```
+OUTPUT_FOLDER=/Users/yourname/Documents/Bluecoins
+ACCOUNT_NAME_IBERCAJA=Ibercaja Account
+ACCOUNT_TYPE_IBERCAJA=Bank
+OUTPUT_NAME_IBERCAJA=ibercaja_bluecoins
+```
 
 ## 🏦 Supported Banks and Instructions
 
@@ -60,7 +79,7 @@ In development / Coming soon.
 
 In development / Coming soon.
 
-## ⚙️ Critical Configuration in Bluecoins
+## 📥 Critical Configuration in Bluecoins
 
 For your accounting to be accurate, follow these golden rules:
 
@@ -93,4 +112,5 @@ Don't forget to also create the `requirements.txt` file with this content for th
 ```text
 pandas
 openpyxl
+python-dotenv
 ```

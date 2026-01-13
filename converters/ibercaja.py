@@ -15,6 +15,7 @@ load_dotenv()
 
 # We get the account name from .env. If not found, we use a default.
 ACCOUNT_NAME = os.getenv("ACCOUNT_NAME_IBERCAJA", "Ibercaja Account")
+ACCOUNT_TYPE = os.getenv("ACCOUNT_TYPE_IBERCAJA", "Bank")
 OUTPUT_NAME_BASE = os.getenv("OUTPUT_NAME_IBERCAJA", "ibercaja_bluecoins")
 
 # === ARGUMENT CHECK ===
@@ -110,7 +111,7 @@ out["(4)Amount"] = df["amount"].abs()
 
 out["(5)Parent Category"] = ""
 out["(6)Category"] = ""
-out["(7)Account Type"] = "Bank"
+out["(7)Account Type"] = ACCOUNT_TYPE
 out["(8)Account"] = ACCOUNT_NAME
 
 out["(9)Notes"] = (
