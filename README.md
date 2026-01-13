@@ -20,11 +20,28 @@ To use these scripts, you need to have **Python 3.x** installed on your computer
      pip install -r requirements.txt
      ```
 
+## 🖥️ How to Use
+
+The easiest way to convert your files is using the main launcher:
+
+```bash
+# On macOS / Linux
+python3 convert.py
+
+# On Windows
+python convert.py
+```
+
+The script will automatically:
+1. Ask you to select your bank.
+2. Help you configure your account name the first time (and save it for future use).
+3. Open a file selector (or ask for the path) to process your bank statement.
+
+The converted file will be generated with the format `[bankname]_bluecoins.csv` ready to import into Bluecoins.
+
 ## 🏦 Supported Banks and Instructions
 
 ### 1. Ibercaja (.xlsx)
-
-The `ibercaja.py` script is optimized to process the official Excel file.
 
 **How to download the file:**
 
@@ -34,21 +51,6 @@ The `ibercaja.py` script is optimized to process the official Excel file.
 - Click the **Download** button and choose the Excel format (.xlsx).
 
 > **Note:** Do not modify the file content before using the script.
-
-**How to convert it:**
-
-```bash
-python ibercaja.py
-```
-
-The script will ask for the file path and generate a new file called `ibercaja_bluecoins.csv` ready to import.
-
-**Account name customization:**
-
-To have transactions automatically assigned to your account:
-
-1. Copy `.env.example` and rename it to `.env`.
-2. Edit the `ACCOUNT_NAME_IBERCAJA` value with the exact name you use in Bluecoins.
 
 ### 2. BBVA
 
@@ -91,5 +93,4 @@ Don't forget to also create the `requirements.txt` file with this content for th
 ```text
 pandas
 openpyxl
-python-dotenv
 ```
