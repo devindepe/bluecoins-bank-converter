@@ -1,5 +1,6 @@
 import os
 import sys
+from datetime import datetime
 
 try:
     import pandas as pd
@@ -14,15 +15,16 @@ load_dotenv()
 
 # We get the account name from .env. If not found, we use a default.
 ACCOUNT_NAME = os.getenv("ACCOUNT_NAME_IBERCAJA", "Ibercaja Account")
+OUTPUT_NAME_BASE = os.getenv("OUTPUT_NAME_IBERCAJA", "ibercaja_bluecoins")
 
-# === ARGUMENT CHECK (From Dispatcher) ===
-# main.py passes the file path as the first argument (sys.argv[1])
-if len(sys.argv) < 2:
-    print("❌ Error: No file path provided.")
-    print("Usage: python ibercaja.py <file_path>")
+# === ARGUMENT CHECK ===
+if len(sys.argv) < 3:
+    print("❌ Error: Missing arguments.")
+    print("Usage: python ibercaja.py <input_file> <output_folder>")
     sys.exit(1)
 
 input_xlsx = sys.argv[1]
+output_dir = sys.argv[2]
 
 # === VALIDATE FILE EXTENSION ===
 # Ensure the user provided a valid Excel file
@@ -38,7 +40,11 @@ if not os.path.isfile(input_xlsx):
 
 # === CONFIGURATION ===
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_CSV = os.path.join(SCRIPT_DIR, "ibercaja_bluecoins.csv")
+
+current_date = datetime.now().strftime("%Y-%m-%d")
+output_base_name = os.getenv("OUTPUT_NAME_IBERCAJA", "ibercaja_bluecoins")
+output_filename = f"{output_base_name.replace('.csv', '')}_{current_date}.csv"
+OUTPUT_CSV = os.path.join(output_dir, output_filename)
 
 # === READ EXCEL ===
 # Read without predefined types to perform manual cleaning
@@ -120,4 +126,8 @@ out["(12) Split"] = ""
 # Bluecoins requires UTF-8 and comma separator
 out.to_csv(OUTPUT_CSV, index=False, encoding="utf-8")
 
-print(f"✅ CSV generated correctly: {OUTPUT_CSV}")
+try:
+    out.to_csv(OUTPUT_CSV, index=False, encoding="utf-8")
+    print(f"✅ CSV generated correctly: {OUTPUT_CSV}")
+except Exception as e:
+    print(f"❌ Error saving CSV: {e}")

@@ -17,6 +17,46 @@ except ImportError:
     print("\n❌ Error: 'python-dotenv' not found. Run: pip3 install python-dotenv")
     sys.exit(1)
 
+def get_or_set_env_var(env_key, prompt_text, default_value):
+    """Generic function to check .env or ask the user and save the value."""
+    load_dotenv()
+    value = os.getenv(env_key)
+
+    if not value:
+        print(f"\n--- ⚙️ Configuration for {env_key} ---")
+        user_input = input(f"{prompt_text} (Enter for '{default_value}'): ").strip()
+        value = user_input if user_input else default_value
+        set_key(".env", env_key, value)
+    return value
+
+def select_output_folder():
+    """Selects the destination folder or creates a default 'exports' folder."""
+    load_dotenv()
+    folder_path = os.getenv("OUTPUT_FOLDER")
+
+    if not folder_path or not os.path.exists(folder_path):
+        print("\n--- 📁 Output Folder Configuration ---")
+        
+        if HAS_TKINTER:
+            root = tk.Tk()
+            root.withdraw()
+            root.attributes("-topmost", True)
+            print("Opening folder selector...")
+            folder_path = filedialog.askdirectory(title="Select folder for CSV outputs")
+        
+        # If visual selector was canceled or not available
+        if not folder_path:
+            print("📍 No folder selected. Using default: /exports")
+            # Create 'exports' directory in the current working directory
+            folder_path = os.path.join(os.getcwd(), "exports")
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+                print(f"✨ Folder created: {folder_path}")
+        
+        set_key(".env", "OUTPUT_FOLDER", folder_path)
+    
+    return folder_path
+
 def select_file(bank_name):
     """Selects the file using visual window or text depending on availability."""
     if HAS_TKINTER:
@@ -63,7 +103,7 @@ def main():
     }
 
     print("\n========================================")
-    print("  SPAIN BANK CONVERTER FOR BLUECOINS   ")
+    print("  BANK CONVERTER FOR BLUECOINS   ")
     print("========================================")
     
     for k, v in supported_banks.items(): 
@@ -75,8 +115,12 @@ def main():
         return
 
     bank_name, script_file = supported_banks[res]
+    bank_id = bank_name.upper()
     
+    # 1. First, ensure all configurations are set in .env
     get_or_set_account_name(bank_name)
+    get_or_set_env_var(f"OUTPUT_NAME_{bank_id}", "Base name for the output CSV?", f"{bank_name.lower()}_bluecoins")
+    output_dir = select_output_folder() # Set destination folder
     file_path = select_file(bank_name)
     
     if not file_path or not os.path.exists(file_path):
@@ -85,7 +129,7 @@ def main():
 
     if os.path.exists(script_file):
         print(f"\n🚀 Processing {bank_name}...")
-        subprocess.run([sys.executable, script_file, file_path])
+        subprocess.run([sys.executable, script_file, file_path, output_dir])
     else:
         print(f"❌ Error: The script {script_file} is not found in the folder.")
 
