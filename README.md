@@ -90,9 +90,24 @@ OUTPUT_NAME_IBERCAJA=ibercaja_bluecoins
 
 > **Note:** Do not modify the file content before using the script.
 
-### 3. Revolut
+### 3. Revolut (.csv)
 
-In development / Coming soon.
+**How to download the file:**
+
+**Via Mobile App:**
+- Open the Revolut app and select your account
+- Tap **"More"** at the bottom
+- Select **"Statement"**
+- Choose the date range you want to export
+- Tap **"Download"** and select **CSV format**
+
+**Via Web (revolut.com):**
+- Log into revolut.com and go to your account
+- Click **"Statement"** on the left sidebar
+- Select the date range you want to export
+- Click **"Download"** and choose **CSV format**
+
+> **Note:** Do not modify the file content before using the script.
 
 ## 📥 Critical Configuration in Bluecoins
 
