@@ -1,6 +1,8 @@
 # 🏦 Bluecoins Bank Importers
 
-This repository contains a set of Python scripts designed to convert bank statements (in Excel or CSV format) to the standard import format for the **Bluecoins** App.
+**Convert Ibercaja, BBVA & Revolut statements to Bluecoins CSV format**
+
+This repository contains a set of Python scripts designed to convert bank statements (in Excel or CSV format) to the standard import format for the **Bluecoins** App. https://www.bluecoinsapp.com/import-guide/
 
 The goal is to facilitate personal finance tracking without having to manually enter each transaction.
 
@@ -26,10 +28,10 @@ The easiest way to convert your files is using the main launcher:
 
 ```bash
 # On macOS / Linux
-python3 main.py
+python3 convert.py
 
 # On Windows
-python main.py
+python convert.py
 ```
 
 The script will automatically:
@@ -71,9 +73,22 @@ OUTPUT_NAME_IBERCAJA=ibercaja_bluecoins
 
 > **Note:** Do not modify the file content before using the script.
 
-### 2. BBVA
+### 2. BBVA (.xlsx)
 
-In development / Coming soon.
+**How to download the file:**
+
+**Via Mobile App:**
+- Open the BBVA app and select your account
+- Tap the **search icon** (magnifying glass) to filter movements
+- Apply date range and filters needed
+- Tap **"Download Movements"** → Select **Excel**
+
+**Via Web (bbva.es):**
+- Log into bbva.es and go to your account
+- Click the **search/filter icon** to set date range
+- Once movements are displayed, click **"Download Movements"** → Select **Excel**
+
+> **Note:** Do not modify the file content before using the script.
 
 ### 3. Revolut
 
@@ -114,3 +129,19 @@ pandas
 openpyxl
 python-dotenv
 ```
+
+## ❓ FAQ
+
+**Q: Does this work with the free version of Bluecoins?**  
+A: Yes, CSV import is available in all versions.
+
+**Q: Will this create duplicate transactions?**  
+A: The script doesn't detect duplicates. Avoid overlapping date ranges.
+
+**Q: Can I add my bank?**  
+A: Yes! Open an issue with a sample file or submit a PR.
+
+## 🔍 Keywords
+Bluecoins importer, bank statement converter, CSV converter, Ibercaja to Bluecoins, 
+BBVA export, Revolut transactions, personal finance automation, money tracking, 
+expense tracker, bank CSV parser, financial data import
